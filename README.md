@@ -1,19 +1,12 @@
-# pux-starter-app
+# pux-villein
 
-Starter [Pux](https://github.com/alexmingoia/purescript-pux/) application using
-webpack with hot-reloading and time-travel debug using
-[pux-devtool](https://github.com/alexmingoia/pux-devtool).
-
-See the [Guide](https://alexmingoia.github.io/purescript-pux) for help learning
-Pux.
-
-![Pux starter app animation](support/pux-starter-app.gif)
+An encoder for the Villein number system using [Pux](https://github.com/alexmingoia/purescript-pux/).
 
 ## Installation
 
 ```sh
-git clone git://github.com/alexmingoia/pux-starter-app.git example
-cd example
+git clone git://github.com/corajr/pux-villein
+cd pux-villein
 npm install
 npm start
 ```

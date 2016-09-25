@@ -1,0 +1,6 @@
+{
+  "name": "pux-villein",
+  "tagline": "An encoder for the Villein number system.",
+  "body": "# pux-villein\r\n\r\nAn encoder for the Villein number system using [Pux](https://github.com/alexmingoia/purescript-pux/).\r\n\r\n## Installation\r\n\r\n```sh\r\ngit clone git://github.com/corajr/pux-villein\r\ncd pux-villein\r\nnpm install\r\nnpm start\r\n```\r\n\r\nVisit `http://localhost:3000` in your browser, edit `src/purs/Layout.purs`\r\nand watch the magic!\r\n\r\n## Available scripts\r\n\r\n### watch\r\n\r\n`npm start` or `npm run watch` will start a development server, which\r\nhot-reloads your application when sources changes.\r\n\r\n### serve\r\n\r\n`npm run serve` serves your application without watching for changes or\r\nhot-reloading.\r\n\r\n### build\r\n\r\n`npm run build` bundles and minifies your application to run in production mode.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}

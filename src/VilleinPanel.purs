@@ -7,10 +7,13 @@ import Data.Map as Map
 import Pux.Html as Html
 import Data.Generic (class Generic, gShow)
 import Data.Map (Map)
+import Data.Int (toNumber)
 import Data.Maybe (Maybe(..))
 import Data.Tuple (Tuple(..))
 import Data.Unfoldable (unfoldr)
-import Pux.CSS (style, position, left, top, absolute, em)
+import Pux.CSS (style, position, left, bottom,
+                absolute, em, transform, marginTop, marginLeft, rotate, deg,
+                width, height, border, solid, black, whitesmoke, px)
 import Pux.Html (Html, span, input, text)
 import Pux.Html.Attributes (offset, type_, value, checked)
 import Pux.Html.Events (onClick, onChange, FormEvent)
@@ -132,18 +135,40 @@ view state =
   Html.div
     []
     [ input [ type_ "text", value (show state.number), onChange NumberChange] []
-    , Html.div [] (map checkbox <<< Array.fromFoldable <<< Map.toList $ state.edges)
-    , Html.div [] [ text (show (toBase 4 state.number)) ]
+    , Html.div [ ] [ text (show (toBase 4 state.number)) ]
+    , Html.div [ leftMarg ]
+      [ Html.div [ turned ] (map connection <<< Array.fromFoldable <<< Map.toList $ state.edges)
+      ]
     ]
+    where leftMarg = style $ do
+            marginLeft (-10.0 # em)
+            marginTop (10.0 # em)
+            width (10.0 # em)
+            height (10.0 # em)
+          turned = style $ do
+            transform $ rotate (45.0 # deg)
 
 
-center :: Coord
+center :: { x :: Int, y :: Int}
 center = { x: 10, y: 10 }
 
-checkbox :: Tuple Edge Boolean -> Html Action
-checkbox (Tuple e@({dir: dir, coord: coord}) b) =
-  input [ type_ "checkbox", checked b, onClick (const (Toggle e)), pos ] []
-  where pos = style $ do
-                position absolute
-                left (em (coord.x + center.x))
-                top (em (coord.y + center.y))
+getPosition :: Edge -> {x :: Number, y :: Number}
+getPosition (Edge {dir: dir, coord: Coord coord}) = {x: x, y: y}
+  where dx = if dir == East then 0.0 else 0.0
+        dy = if dir == North then 0.0 else 0.0
+        x = 2.0 * (dx + toNumber (coord.x + center.x))
+        y = 2.0 * (dy + toNumber (coord.y + center.y))
+
+connection :: Tuple Edge Boolean -> Html Action
+connection (Tuple e@(Edge {dir: dir}) b) =
+  -- input [ type_ "checkbox", checked b, onClick (const (Toggle e)), pos ] []
+  Html.div [ styled ] []
+  where styled = style $ do
+          position absolute
+          case dir of
+            North -> height (2.0 # em)
+            East -> width (2.0 # em)
+          let pos = getPosition e
+          border solid (1.0 # px) (if b then black else whitesmoke)
+          left (pos.x # em)
+          bottom (pos.y # em)

@@ -2,14 +2,15 @@ module App.VilleinPanel where
 
 import Prelude
 import Data.Array as Array
+import Data.Int as Int
 import Data.Map as Map
 import Pux.Html as Html
 import Data.Generic (class Generic, gShow)
-import Data.Int as Int
 import Data.Map (Map)
 import Data.Maybe (Maybe(..))
 import Data.Tuple (Tuple(..))
 import Data.Unfoldable (unfoldr)
+import Pux.CSS (style, position, left, top, absolute, em)
 import Pux.Html (Html, span, input, text)
 import Pux.Html.Attributes (offset, type_, value, checked)
 import Pux.Html.Events (onClick, onChange, FormEvent)
@@ -130,11 +131,19 @@ view :: State -> Html Action
 view state =
   Html.div
     []
-    ([input [ type_ "text", value (show state.number), onChange NumberChange] []] <>
-    ((map checkbox <<< Array.fromFoldable <<< Map.toList $ state.edges) <>
-    [ Html.div [] [ text (show (toBase 4 state.number))]
-    ]))
+    [ input [ type_ "text", value (show state.number), onChange NumberChange] []
+    , Html.div [] (map checkbox <<< Array.fromFoldable <<< Map.toList $ state.edges)
+    , Html.div [] [ text (show (toBase 4 state.number)) ]
+    ]
 
+
+center :: Coord
+center = { x: 10, y: 10 }
 
 checkbox :: Tuple Edge Boolean -> Html Action
-checkbox (Tuple e b) = input [ type_ "checkbox", checked b, onClick (const (Toggle e))] []
+checkbox (Tuple e@({dir: dir, coord: coord}) b) =
+  input [ type_ "checkbox", checked b, onClick (const (Toggle e)), pos ] []
+  where pos = style $ do
+                position absolute
+                left (em (coord.x + center.x))
+                top (em (coord.y + center.y))

@@ -1,6 +1,6 @@
 # pux-villein
 
-An encoder for the Villein number system using [Pux](https://github.com/alexmingoia/purescript-pux/).
+An encoder for the Villein number system using [Pux](https://github.com/alexmingoia/purescript-pux/). A demo can be found at: https://corajr.github.io/pux-villein/demo
 
 ## Installation
 
